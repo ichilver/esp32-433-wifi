@@ -33,3 +33,50 @@ When we receive a long preample between 8ms and 25ms we start recording the mess
 Once the postample is received we stop listening to give other code (not in the examples) a chance to process the received message.   
 
 Then when the message is decoded we put the state back into listening mode again.   
+
+The timer interrupt was set to every 25us to give enough sample size for detecting states.   
+
+Below shows how the signals are detected.
+
+```
+ Basic Bit Formats
+     Below is an example of how some bit formats work.
+
+            '1' bit:
+             _____
+            |     |
+            |     |
+            |     |_____
+
+            |-----|-----|
+               T     T
+
+            '0' bit:
+             _____
+            |     |
+            |     |
+            |     |_________________________
+
+            |-----|-------------------------|
+               T               5T
+
+            'SYNC' bit:   (Also referred to as the PREAMPLE)
+             _____
+            |     |
+            |     |
+            |     |__________________________________________________
+
+            |-----|--------------------------------------------------|
+               T                         10T
+
+            'PAUSE' bit:
+             _____
+            |     |
+            |     |
+            |     |_______________________ . . . ____
+
+            |-----|----------------------- . . . ----|
+               T                40T
+
+            T = 250 us
+```
