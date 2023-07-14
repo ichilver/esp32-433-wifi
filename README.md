@@ -11,6 +11,14 @@ All examples work fine when the WiFi section is not enabled by the hash define.
 * example-thread.cpp - Tried using threads    
 * example-timer-interrupt.cpp - Instead of a pin edge triggered interrupt I tried using a timer interrupt for every 25us.   
 
+## The Problem
+
+All examples work for the 433Mhz receiving until the WiFi code is added.   As soon as the WiFi.begin() function is called things go wrong.   
+I only receive broken messages, or no message at all.   
+
+I'm guessing that it's not possible to run both 433 code and WiFi on the same ESP32.  The WiFi is running longer than the 433 code and it therefore misses part of the receiving message.   I tried running the WiFi code on CPU0 and the 433 code on CPU1 but that made no difference.
+
+I tried turning the WiFi off, and only turning on once a message had been received but the connection to the WiFi network takes too long each time and isn't really an option.
 ##  Hardware
 
 1. ESP32 Wroom DevKit v4   
